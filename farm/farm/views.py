@@ -603,11 +603,11 @@ def chatbot(request):
             response = requests.post(
                 "https://api.groq.com/openai/v1/chat/completions",
                 headers={
-                    "Authorization": "Bearer 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",  # ✅ FIXED
+                    "Authorization": "Bearer ",  # ✅ FIXED
                     "Content-Type": "application/json"
                 },
                 json={
-                    "model": "llama-3.3-70b-versatile",  # ✅ NEW MODEL
+                    "model": "",  # ✅ NEW MODEL
                     "messages": [
                         {"role": "system", "content": "You are a smart farming assistant AI."},
                         {"role": "user", "content": user_msg}
