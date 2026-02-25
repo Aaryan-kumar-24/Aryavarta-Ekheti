@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm Dashboard</title>
+
+  <!-- ✅ ONLY ONE Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin: 50px;
+    }
+
+    .dashboard-card {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    }
+
+    .dashboard-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+    }
+
+    .card-overlay h5 {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .card-overlay p {
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .details-section {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    /* ✅ FIX: remove dark backdrop completely */
+    .offcanvas-backdrop,
+    .modal-backdrop {
+      background-color: transparent !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Navbar / Header -->
+  {% include "header.html" %}
+
+  <h1 class="text-center my-5 fw-bold" style="color:green;">
+    Farm Dashboard Features
+  </h1>
+
+  <div class="card-container">
+
+    <a href="{% url 'storage' %}">
+      <div class="dashboard-card">
+        <img src="{% static 'Request Crop Purchase.webp' %}" alt="Request Crop Purchase">
+        <div class="card-overlay">
+          <h5>Request Crop Purchase</h5>
+          <p>Submit and track requests</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'profit_loss' %}">
+      <div class="dashboard-card">
+        <img src="{% static 'Profit & Loss Prediction.webp' %}" alt="Profit & Loss Prediction">
+        <div class="card-overlay">
+          <h5>Profit & Loss Prediction</h5>
+          <p>Analyze seasonal data</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'to_do_list' %}">
+      <div class="dashboard-card">
+        <img src="{% static 'Weekly To-Do List.jpg' %}" alt="Weekly To-Do List">
+        <div class="card-overlay">
+          <h5>Weekly To-Do List</h5>
+          <p>Manage tasks & schedules</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'quantity_tracker' %}">
+      <div class="dashboard-card">
+        <img src="{% static 'Quantity Tracking.jpg' %}" alt="Quantity Tracking">
+        <div class="card-overlay">
+          <h5>Quantity Tracking</h5>
+          <p>Track crop quantities</p>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Inline Details Section -->
+  <div id="details" class="details-section"></div>
+
+  <!-- JS -->
+  <script>
+    function showDetails(title, url) {
+      const detailsDiv = document.getElementById('details');
+
+      fetch(url)
+        .then(response => response.text())
+        .then(html => {
+          detailsDiv.innerHTML = `<h3>${title}</h3>${html}`;
+          detailsDiv.style.display = 'block';
+          detailsDiv.scrollIntoView({ behavior: 'smooth' });
+        })
+        .catch(err => {
+          detailsDiv.innerHTML = `<h3>${title}</h3><p>Failed to load content.</p>`;
+          detailsDiv.style.display = 'block';
+        });
+    }
+  </script>
+
+  <!-- ✅ Bootstrap JS (ONLY ONCE) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ✅ Footer -->
+  {% include "footer.html" %}
+
+</body>
+</html> 
